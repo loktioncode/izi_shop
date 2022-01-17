@@ -8,6 +8,9 @@ import 'widgets/fade_in.dart';
 // ignore: unused_import
 import 'constants.dart';
 
+// temporary
+import 'cart.dart';
+
 class DashboardScreen extends StatefulWidget {
   static const routeName = '/dashboard';
 
@@ -172,9 +175,10 @@ class _DashboardScreenState extends State<DashboardScreen>
                     fit: BoxFit.cover,
                   ),
                 ),
-                onTap: () {
-                  print("PREESED!!!!!!>>>>>>>>>>");
-                },
+                onTap: () =>
+                    Navigator.of(context).pushReplacement(FadePageRoute(
+                  builder: (context) => const Cart(),
+                )),
               ),
               InkWell(
                 splashColor: Colors.deepPurple,
