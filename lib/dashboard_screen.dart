@@ -95,10 +95,17 @@ class _DashboardScreenState extends State<DashboardScreen>
       onPressed: () => _goToGlobalSearch(context),
     );
     final cart = new IconButton(
-      color: Colors.deepPurple,
-      icon: _cartIcon,
-      onPressed: () => _gotoCart(context),
-    );
+        color: Colors.deepPurple,
+        icon: _cartIcon,
+        onPressed: () => Navigator.of(context).pushReplacement(
+              FadePageRoute(
+                  builder: (context) => Cart(
+                        count: 3,
+                        price: 2,
+                        Name: "widget.Name",
+                        Description: "widget.Description",
+                      )),
+            ));
     final signOutBtn = IconButton(
       icon: const Icon(FontAwesomeIcons.signOutAlt),
       color: theme.colorScheme.secondary,
@@ -109,9 +116,12 @@ class _DashboardScreenState extends State<DashboardScreen>
       centerTitle: true,
       title: _appBarTitle,
       leading: Row(
-        children: [searchBtn, cart],
+        children: [
+          searchBtn,
+          cart,
+        ],
       ),
-
+      leadingWidth: 100,
       actions: <Widget>[
         FadeIn(
           controller: _loadingController,
@@ -193,12 +203,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                 ),
                 onTap: () =>
                     Navigator.of(context).pushReplacement(FadePageRoute(
-                  builder: (context) => Cart(
-                    count: 3,
-                    price: 2,
-                    Name: "widget.Name",
-                    Description: "widget.Description",
-                  ),
+                  builder: (context) => const GlobalSearchScreen(),
                 )),
               ),
               InkWell(
