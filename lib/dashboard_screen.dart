@@ -36,6 +36,13 @@ class _DashboardScreenState extends State<DashboardScreen>
         .then((_) => false);
   }
 
+  Future<bool> _gotoCart(BuildContext context) {
+    return Navigator.of(context)
+        .pushReplacementNamed('/cart')
+        // we dont want to pop the screen, just replace it completely
+        .then((_) => false);
+  }
+
   final routeObserver = TransitionRouteObserver<PageRoute?>();
   static const headerAniInterval = Interval(.1, .3, curve: Curves.easeOut);
   late Animation<double> _headerScaleAnimation;
@@ -77,6 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   final TextEditingController _filter = new TextEditingController();
 
   Icon _searchIcon = new Icon(Icons.search);
+  Icon _cartIcon = new Icon(Icons.shopping_bag);
   Widget _appBarTitle =
       new Text('Eazi Shop', style: TextStyle(color: Colors.deepPurple[400]));
 
@@ -85,6 +93,11 @@ class _DashboardScreenState extends State<DashboardScreen>
       color: Colors.deepPurple,
       icon: _searchIcon,
       onPressed: () => _goToGlobalSearch(context),
+    );
+    final cart = new IconButton(
+      color: Colors.deepPurple,
+      icon: _cartIcon,
+      onPressed: () => _gotoCart(context),
     );
     final signOutBtn = IconButton(
       icon: const Icon(FontAwesomeIcons.signOutAlt),
@@ -95,7 +108,10 @@ class _DashboardScreenState extends State<DashboardScreen>
     return AppBar(
       centerTitle: true,
       title: _appBarTitle,
-      leading: searchBtn,
+      leading: Row(
+        children: [searchBtn, cart],
+      ),
+
       actions: <Widget>[
         FadeIn(
           controller: _loadingController,
@@ -177,7 +193,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                 ),
                 onTap: () =>
                     Navigator.of(context).pushReplacement(FadePageRoute(
-                  builder: (context) => const Cart(),
+                  builder: (context) => Cart(
+                    count: 3,
+                    price: 2,
+                    Name: "widget.Name",
+                    Description: "widget.Description",
+                  ),
                 )),
               ),
               InkWell(
