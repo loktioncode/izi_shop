@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:izi_shop/client.dart';
 import 'custom_route.dart';
 import 'search_page.dart';
 import 'transition_route_observer.dart';
@@ -97,15 +98,15 @@ class _DashboardScreenState extends State<DashboardScreen>
     final cart = new IconButton(
         color: Colors.deepPurple,
         icon: _cartIcon,
-        onPressed: () => Navigator.of(context).pushReplacement(
-              FadePageRoute(
-                  builder: (context) => Cart(
-                        count: 3,
-                        price: 2,
-                        Name: "widget.Name",
-                        Description: "widget.Description",
-                      )),
-            ));
+        onPressed: () => Navigator.of(context)
+            .pushReplacement(FadePageRoute(builder: (context) => ClientView()
+                // Cart(
+                //       count: 3,
+                //       price: 2,
+                //       Name: "widget.Name",
+                //       Description: "widget.Description",
+                //     )),
+                )));
     final signOutBtn = IconButton(
       icon: const Icon(FontAwesomeIcons.signOutAlt),
       color: theme.colorScheme.secondary,
