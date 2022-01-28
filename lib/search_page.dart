@@ -4,9 +4,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_signin_button/button_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'product_card_widget.dart';
 // import 'search_card.dart';
+
+// FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 // Search Page
 class GlobalSearchScreen extends StatelessWidget {
