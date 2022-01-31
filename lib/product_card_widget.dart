@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class ProductCardWidget extends StatelessWidget {
   final product;
+  final onCallback;
 
-  ProductCardWidget({this.product});
+  ProductCardWidget({this.product, this.onCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +52,11 @@ class ProductCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '\$',
+                  'ZWL',
                   style: TextStyle(fontSize: 15.00),
                 ),
                 Text(
-                  'Price',
+                  product['price'],
                   style: TextStyle(fontSize: 15.00),
                 )
               ],
@@ -67,10 +68,10 @@ class ProductCardWidget extends StatelessWidget {
               child: TextButton.icon(
                 style: TextButton.styleFrom(
                     textStyle: TextStyle(color: Colors.white),
-                    backgroundColor: Colors.blue.shade500,
+                    backgroundColor: Colors.blue.shade400,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50.00))),
-                onPressed: () => {},
+                onPressed: () => {this.onCallback()},
                 label: Text(
                   'Add to cart',
                   style: TextStyle(fontSize: 10.0, color: Colors.white),

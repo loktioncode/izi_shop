@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:izi_shop/cart.dart';
+import 'package:izi_shop/client.dart';
 import 'package:izi_shop/search_page.dart';
 import 'dashboard_screen.dart';
 import 'login_screen.dart';
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (context) => const LoginScreen(),
         DashboardScreen.routeName: (context) => const DashboardScreen(),
         GlobalSearchScreen.routeName: (context) => GlobalSearchScreen(),
+        ClientView.routeName: (context) => ClientView(),
       },
     );
   }

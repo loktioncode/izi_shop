@@ -84,17 +84,11 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   final TextEditingController _filter = new TextEditingController();
 
-  Icon _searchIcon = new Icon(Icons.search);
   Icon _cartIcon = new Icon(Icons.shopping_bag);
   Widget _appBarTitle =
       new Text('Eazi Shop', style: TextStyle(color: Colors.deepPurple[400]));
 
   AppBar _buildAppBar(ThemeData theme) {
-    final searchBtn = new IconButton(
-      color: Colors.deepPurple,
-      icon: _searchIcon,
-      onPressed: () => _goToGlobalSearch(context),
-    );
     final cart = new IconButton(
         color: Colors.deepPurple,
         icon: _cartIcon,
@@ -109,7 +103,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                 )));
     final signOutBtn = IconButton(
       icon: const Icon(FontAwesomeIcons.signOutAlt),
-      color: theme.colorScheme.secondary,
+      color: Colors.deepPurple,
       onPressed: () => _goToLogin(context),
     );
 
@@ -118,7 +112,6 @@ class _DashboardScreenState extends State<DashboardScreen>
       title: _appBarTitle,
       leading: Row(
         children: [
-          searchBtn,
           cart,
         ],
       ),

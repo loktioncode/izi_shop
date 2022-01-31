@@ -7,10 +7,9 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:izi_shop/client.dart';
 import 'product_card_widget.dart';
-// import 'search_card.dart';
-
-// FirebaseFirestore firestore = FirebaseFirestore.instance;
+import 'transition_route_observer.dart';
 
 // Search Page
 class GlobalSearchScreen extends StatefulWidget {
@@ -23,6 +22,7 @@ class GlobalSearchScreen extends StatefulWidget {
 
 class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
   List products = [];
+  List cart = [];
 
   @override
   void initState() {
@@ -48,6 +48,15 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
               icon: const Icon(FontAwesomeIcons.arrowLeft),
               onPressed: () => _goback(context),
             ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.shopping_bag),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ClientView()),
+                ),
+              ),
+            ],
             // The search area here
             title: Container(
               width: double.infinity,
@@ -84,7 +93,14 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
                 children: List.generate(docs.length, (index) {
                   final data = docs[index].data();
                   return Center(
-                    child: ProductCardWidget(product: data),
+                    child: ProductCardWidget(
+                      product: data,
+                      onCallback: () => {
+                        cart.add(data),
+                        print(cart),
+                        showAlertDialog(data['Name'])
+                      },
+                    ),
                   );
                 }),
               );
@@ -94,18 +110,42 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
         ));
   }
 
-  // Widget _showProducts() {
-  //   return ProductCardWidget();
-  // }
+  showAlertDialog(product) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      style: TextButton.styleFrom(
+          textStyle: TextStyle(color: Colors.white),
+          backgroundColor: Colors.blue.shade400,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50.00))),
+      onPressed: () => {},
+      child: Text(
+        'View Order',
+        style: TextStyle(fontSize: 15.0, color: Colors.white),
+      ),
+    );
 
-  // getProductList() async {
-  //   var collection = FirebaseFirestore.instance.collection('basics');
-  //   var querySnapshot = await collection.get();
-  //   print(querySnapshot);
-  //   print("fetching products from firestore");
-  //   for (var queryDocumentSnapshot in querySnapshot.docs) {
-  //     Map<String, dynamic> data = queryDocumentSnapshot.data();
-  //     products.add(data);
-  //   }
-  // }
+    Widget continueButton = TextButton(
+      child: Text("Continue Shopping"),
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(product + " added to cart!"),
+      content: Text("Would you like to continue adding products?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
