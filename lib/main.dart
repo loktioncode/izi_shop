@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           headline4: const TextStyle(fontFamily: 'Quicksand'),
           headline5: const TextStyle(fontFamily: 'NotoSans'),
           headline6: const TextStyle(fontFamily: 'NotoSans'),
-          subtitle1: const TextStyle(fontFamily: 'NotoSans'),
+          subtitle1: const TextStyle(fontFamily: 'NotoSans', fontSize: 15.0),
           bodyText1: const TextStyle(fontFamily: 'NotoSans'),
           bodyText2: const TextStyle(fontFamily: 'NotoSans'),
           subtitle2: const TextStyle(fontFamily: 'NotoSans'),

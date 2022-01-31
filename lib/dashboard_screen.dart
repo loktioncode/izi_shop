@@ -169,8 +169,10 @@ class _DashboardScreenState extends State<DashboardScreen>
                 ),
               ],
             ),
-            Text('Select a Shop to start shopping',
-                style: theme.textTheme.subtitle1),
+            Text(
+              'Select a Shop to start shopping',
+              style: theme.textTheme.subtitle1,
+            ),
           ],
         ),
       ),
