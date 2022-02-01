@@ -5,6 +5,7 @@ import 'package:izi_shop/search_page.dart';
 import 'dashboard_screen.dart';
 import 'login_screen.dart';
 import 'transition_route_observer.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -13,7 +14,8 @@ void main() {
           SystemUiOverlayStyle.dark.systemNavigationBarColor,
     ),
   );
-  runApp(const MyApp());
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

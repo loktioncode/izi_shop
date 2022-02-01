@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "610107787241",
+    "firebase_url": "https://shopper-d3cfc.firebaseio.com",
+    "project_id": "shopper-d3cfc",
+    "storage_bucket": "shopper-d3cfc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610107787241:android:367e925e251b60cf7f2d78",
+        "android_client_info": {
+          "package_name": "com.izi_shop.example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610107787241-9tb7l6qrkl0dbdsnfrfatj53mpekqd16.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5BK5qhzkfg2_Z_DkijlSTVMTn6QPt7dQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610107787241-9tb7l6qrkl0dbdsnfrfatj53mpekqd16.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
