@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ClientView extends StatelessWidget {
+  static const routeName = '/cart';
+
   const ClientView({Key? key}) : super(key: key);
 
   Future<bool> _goback(BuildContext context) {
