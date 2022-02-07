@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter_login/flutter_login.dart';
@@ -215,11 +217,14 @@ class LoginScreen extends StatelessWidget {
         }
         return null;
       },
-      onLogin: (loginData) {
+      onLogin: (loginData) async {
         debugPrint('Login info');
         debugPrint('Name: ${loginData.name}');
         debugPrint('Password: ${loginData.password}');
-        return _loginUser(loginData);
+        dynamic result = await _auth.loginUser(
+            loginData.name.toString(), loginData.password.toString());
+        debugPrint(result);
+        return result;
       },
       onSignup: (signupData) async {
         debugPrint('Signup info');
