@@ -2,74 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ClientView extends StatelessWidget {
-  static const routeName = '/cart';
-  final cart;
-
-  ClientView({this.cart});
-
+class OrdersView extends StatelessWidget {
   Future<bool> _goback(BuildContext context) {
     return Navigator.of(context)
         .pushReplacementNamed('/dashboard')
         // we dont want to pop the screen, just replace it completely
         .then((_) => false);
-  }
-
-  _update() {
-    var order = {};
-    for (var product in cart) {
-      var order = {"order": {}};
-      FirebaseFirestore.instance.collection("orders").add(product).then((_) {
-        print("collection ");
-      }).catchError((_) {
-        print("an error occured");
-      });
-    }
-    return;
-  }
-
-  showAlertDialog(context) {
-    // set up the buttons
-    Widget continueButton = TextButton(
-      style: TextButton.styleFrom(
-          textStyle: TextStyle(color: Colors.white),
-          backgroundColor: Colors.blue.shade400,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50.00))),
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ClientView(cart: cart)),
-      ),
-      child: Text(
-        'View Order',
-        style: TextStyle(fontSize: 15.0, color: Colors.white),
-      ),
-    );
-
-    Widget cancelButton = TextButton(
-      child: Text("Continue Shopping"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Add Delivery Address"),
-      content: Text("Would you like to continue adding products?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   Widget build(BuildContext context) {
@@ -121,21 +59,23 @@ class ClientView extends StatelessWidget {
                       Expanded(child: Divider()),
                     ],
                   ),
-                  for (var product in cart)
-                    Card(
-                      child: ListTile(
-                        leading: Icon(Icons.shopping_bag_sharp, size: 35),
-                        title: Text(
-                          product['Name'],
-                          style: TextStyle(
-                              fontSize: 16.0, fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Text(
-                          product['price'],
-                          style: TextStyle(fontSize: 16.0),
-                        ),
+                  // for (var product in cart)
+                  Card(
+                    child: ListTile(
+                      leading: Icon(Icons.shopping_bag_sharp, size: 35),
+                      title: Text(
+                        'kkk',
+                        // product['Name'],
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        'jiji',
+                        // product['price'],
+                        style: TextStyle(fontSize: 16.0),
                       ),
                     ),
+                  ),
                   Container(
                     margin: EdgeInsets.fromLTRB(0, 10.0, 0, 2.0),
                     child: Column(
@@ -161,7 +101,7 @@ class ClientView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(50.00))),
                           onPressed: () => {},
                           label: Text(
-                            'Submit Order',
+                            'DELIVERED',
                             style:
                                 TextStyle(fontSize: 22.0, color: Colors.white),
                           ),

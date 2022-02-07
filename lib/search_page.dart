@@ -28,15 +28,11 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
-    // Firebase.initializeApp().whenComplete(() {
-    //   getProductList().then(() => {print("completed fetching data")});
-    // });
   }
 
   Future<bool> _goback(BuildContext context) {
     return Navigator.of(context)
         .pushReplacementNamed('/dashboard')
-        // we dont want to pop the screen, just replace it completely
         .then((_) => false);
   }
 
@@ -49,13 +45,16 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
               onPressed: () => _goback(context),
             ),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.shopping_bag),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ClientView()),
-                ),
-              ),
+              cart.length != 0
+                  ? IconButton(
+                      icon: const Icon(Icons.shopping_bag),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ClientView(cart: cart)),
+                      ),
+                    )
+                  : Text(""),
             ],
             // The search area here
             title: Container(
@@ -98,7 +97,7 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
                       onCallback: () => {
                         cart.add(data),
                         print(cart),
-                        showAlertDialog(data['Name'])
+                        showAlertDialog(data['Name'], cart)
                       },
                     ),
                   );
@@ -110,24 +109,29 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
         ));
   }
 
-  showAlertDialog(product) {
+  showAlertDialog(product, cart) {
     // set up the buttons
-    Widget cancelButton = TextButton(
+    Widget continueButton = TextButton(
       style: TextButton.styleFrom(
           textStyle: TextStyle(color: Colors.white),
           backgroundColor: Colors.blue.shade400,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50.00))),
-      onPressed: () => {},
+      onPressed: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ClientView(cart: cart)),
+      ),
       child: Text(
         'View Order',
         style: TextStyle(fontSize: 15.0, color: Colors.white),
       ),
     );
 
-    Widget continueButton = TextButton(
+    Widget cancelButton = TextButton(
       child: Text("Continue Shopping"),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
     );
 
     // set up the AlertDialog
