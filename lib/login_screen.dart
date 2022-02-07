@@ -1,8 +1,12 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:izi_shop/services/auth.dart';
 
 import 'constants.dart';
 import 'custom_route.dart';
@@ -12,8 +16,8 @@ import 'users.dart';
 class LoginScreen extends StatelessWidget {
   static const routeName = '/auth';
 
-  const LoginScreen({Key? key}) : super(key: key);
-
+  LoginScreen({Key? key}) : super(key: key);
+  final AuthService _auth = AuthService();
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 2250);
 
   Future<String?> _loginUser(LoginData data) {
@@ -59,7 +63,7 @@ class LoginScreen extends StatelessWidget {
       navigateBackAfterRecovery: true,
       onConfirmRecover: _signupConfirm,
       onConfirmSignup: _signupConfirm,
-      loginAfterSignUp: false,
+      loginAfterSignUp: true,
       loginProviders: [
         LoginProvider(
           button: Buttons.Google,
@@ -213,13 +217,16 @@ class LoginScreen extends StatelessWidget {
         }
         return null;
       },
-      onLogin: (loginData) {
+      onLogin: (loginData) async {
         debugPrint('Login info');
         debugPrint('Name: ${loginData.name}');
         debugPrint('Password: ${loginData.password}');
-        return _loginUser(loginData);
+        dynamic result = await _auth.loginUser(
+            loginData.name.toString(), loginData.password.toString());
+        debugPrint(result);
+        return result;
       },
-      onSignup: (signupData) {
+      onSignup: (signupData) async {
         debugPrint('Signup info');
         debugPrint('Name: ${signupData.name}');
         debugPrint('Password: ${signupData.password}');
@@ -234,7 +241,11 @@ class LoginScreen extends StatelessWidget {
                 ' - ${element.term.id}: ${element.accepted == true ? 'accepted' : 'rejected'}');
           }
         }
-        return _signupUser(signupData);
+        debugPrint("here");
+        dynamic result = await _auth.createUser(
+            signupData.name.toString(), signupData.password.toString());
+        debugPrint("finally");
+        return result;
       },
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(FadePageRoute(

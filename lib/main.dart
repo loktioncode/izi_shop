@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           headline4: const TextStyle(fontFamily: 'Quicksand'),
           headline5: const TextStyle(fontFamily: 'NotoSans'),
           headline6: const TextStyle(fontFamily: 'NotoSans'),
-          subtitle1: const TextStyle(fontFamily: 'NotoSans'),
+          subtitle1: const TextStyle(fontFamily: 'NotoSans', fontSize: 15.0),
           bodyText1: const TextStyle(fontFamily: 'NotoSans'),
           bodyText2: const TextStyle(fontFamily: 'NotoSans'),
           subtitle2: const TextStyle(fontFamily: 'NotoSans'),
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [TransitionRouteObserver()],
       initialRoute: LoginScreen.routeName,
       routes: {
-        LoginScreen.routeName: (context) => const LoginScreen(),
+        LoginScreen.routeName: (context) =>  LoginScreen(),
         DashboardScreen.routeName: (context) => const DashboardScreen(),
         GlobalSearchScreen.routeName: (context) => GlobalSearchScreen(),
         ClientView.routeName: (context) => ClientView(),

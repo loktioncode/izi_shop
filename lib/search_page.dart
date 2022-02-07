@@ -4,31 +4,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_signin_button/button_list.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:izi_shop/client.dart';
 import 'product_card_widget.dart';
-import 'transition_route_observer.dart';
+// import 'search_card.dart';
 
 // Search Page
-class GlobalSearchScreen extends StatefulWidget {
+class GlobalSearchScreen extends StatelessWidget {
   static const routeName = '/search';
   const GlobalSearchScreen({Key? key}) : super(key: key);
-
-  @override
-  State<GlobalSearchScreen> createState() => _GlobalSearchScreenState();
-}
-
-class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
-  List products = [];
-  List cart = [];
-
-  @override
-  void initState() {
-    super.initState();
-    Firebase.initializeApp();
-  }
 
   Future<bool> _goback(BuildContext context) {
     return Navigator.of(context)
@@ -44,18 +27,6 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
               icon: const Icon(FontAwesomeIcons.arrowLeft),
               onPressed: () => _goback(context),
             ),
-            actions: [
-              cart.length != 0
-                  ? IconButton(
-                      icon: const Icon(Icons.shopping_bag),
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ClientView(cart: cart)),
-                      ),
-                    )
-                  : Text(""),
-            ],
             // The search area here
             title: Container(
               width: double.infinity,
@@ -77,79 +48,165 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
                 ),
               ),
             )),
-        body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance.collection('basics').snapshots(),
-          builder: (_, snapshot) {
-            if (snapshot.hasError) return Text('Error = ${snapshot.error}');
-            if (snapshot.hasData) {
-              final docs = snapshot.data!.docs;
-              return GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 4.0,
-                mainAxisSpacing: 8.0,
-                cacheExtent: 100.00,
-                shrinkWrap: true,
-                children: List.generate(docs.length, (index) {
-                  final data = docs[index].data();
-                  return Center(
-                    child: ProductCardWidget(
-                      product: data,
-                      onCallback: () => {
-                        cart.add(data),
-                        print(cart),
-                        showAlertDialog(data['Name'], cart)
-                      },
-                    ),
-                  );
-                }),
-              );
-            }
-            return Center(child: CircularProgressIndicator());
-          },
-        ));
-  }
+        body: GridView.count(
+          addAutomaticKeepAlives: false,
+          cacheExtent: 100.00,
+          shrinkWrap: true,
+          crossAxisCount: 2,
+          children: [
+            ProductCardWidget(),
+            ProductCardWidget(),
+            ProductCardWidget()
+            // constructing cards
+          ],
+        )
+        // Column(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   crossAxisAlignment: CrossAxisAlignment.start,
 
-  showAlertDialog(product, cart) {
-    // set up the buttons
-    Widget continueButton = TextButton(
-      style: TextButton.styleFrom(
-          textStyle: TextStyle(color: Colors.white),
-          backgroundColor: Colors.blue.shade400,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50.00))),
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ClientView(cart: cart)),
-      ),
-      child: Text(
-        'View Order',
-        style: TextStyle(fontSize: 15.0, color: Colors.white),
-      ),
-    );
+        //   children: [
+        //   Expanded(child: Container(
+        //     flex
+        //   )),
+        //     Column(
+        //       mainAxisAlignment: MainAxisAlignment.start,
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         SizedBox(
+        //           width: 100.00,
+        //           height: 100.00,
+        //           child: Container(
+        //             alignment: Alignment.topLeft,
+        //             padding: const EdgeInsets.fromLTRB(0.00, 5.00, 0.00, 0.00),
+        //             // constraints: BoxConstraints.expand(height: 50.00, width: 50.00),
+        //             width: 100.00,
+        //             child: Image.asset(
+        //               'assets/images/pnp.jpg',
+        //               fit: BoxFit.fitWidth,
+        //               height: 100.00,
+        //               width: 100.00,
+        //             ),
 
-    Widget cancelButton = TextButton(
-      child: Text("Continue Shopping"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
+        //             // Container(child: ImageContainer("asserts/images/ok.png")),
+        //           ),
+        //         ),
+        //         Container(
+        //           alignment: Alignment.topLeft,
+        //           child: Text('Name',
+        //               textAlign: TextAlign.start,
+        //               style: TextStyle(
+        //                 fontSize: 15.0,
+        //               )),
+        //         ),
+        //         Container(
+        //           alignment: Alignment.topLeft,
+        //           child: Text(
+        //             'Description Description is that',
+        //             style: TextStyle(fontSize: 10.00),
+        //           ),
+        //         ),
+        //         Container(
+        //           alignment: Alignment.bottomLeft,
+        //           child: Row(
+        //             children: [
+        //               Text(
+        //                 '\$',
+        //                 style: TextStyle(fontSize: 15.00),
+        //               ),
+        //               Text(
+        //                 'Price',
+        //                 style: TextStyle(fontSize: 15.00),
+        //               )
+        //             ],
+        //           ),
+        //         ),
+        //         Container(
+        //             alignment: Alignment.bottomLeft,
+        //             child: TextButton.icon(
+        //               style: TextButton.styleFrom(
+        //                   textStyle: TextStyle(color: Colors.white),
+        //                   backgroundColor: Colors.grey,
+        //                   shape: RoundedRectangleBorder(
+        //                       borderRadius: BorderRadius.circular(10.00))),
+        //               onPressed: () => {},
+        //               label: Text(
+        //                 'Add to cart',
+        //                 style: TextStyle(fontSize: 10.0),
+        //               ),
+        //               icon: Icon(Icons.shopping_bag_outlined),
+        //             ))
+        //       ],
+        //     ),
+        //     Column(
+        //       mainAxisAlignment: MainAxisAlignment.start,
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         SizedBox(
+        //           width: 100.00,
+        //           height: 100.00,
+        //           child: Container(
+        //             alignment: Alignment.topLeft,
+        //             padding: const EdgeInsets.fromLTRB(0.00, 5.00, 0.00, 0.00),
+        //             // constraints: BoxConstraints.expand(height: 50.00, width: 50.00),
+        //             width: 100.00,
+        //             child: Image.asset(
+        //               'assets/images/pnp.jpg',
+        //               fit: BoxFit.fitWidth,
+        //               height: 100.00,
+        //               width: 100.00,
+        //             ),
 
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(product + " added to cart!"),
-      content: Text("Would you like to continue adding products?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+        //             // Container(child: ImageContainer("asserts/images/ok.png")),
+        //           ),
+        //         ),
+        //         Container(
+        //           alignment: Alignment.topLeft,
+        //           child: Text('Name',
+        //               textAlign: TextAlign.start,
+        //               style: TextStyle(
+        //                 fontSize: 15.0,
+        //               )),
+        //         ),
+        //         Container(
+        //           alignment: Alignment.topLeft,
+        //           child: Text(
+        //             'Description Description is that',
+        //             style: TextStyle(fontSize: 10.00),
+        //           ),
+        //         ),
+        //         Container(
+        //           alignment: Alignment.bottomLeft,
+        //           child: Row(
+        //             children: [
+        //               Text(
+        //                 '\$',
+        //                 style: TextStyle(fontSize: 15.00),
+        //               ),
+        //               Text(
+        //                 'Price',
+        //                 style: TextStyle(fontSize: 15.00),
+        //               )
+        //             ],
+        //           ),
+        //         ),
+        //         Container(
+        //             alignment: Alignment.bottomLeft,
+        //             child: TextButton.icon(
+        //               style: TextButton.styleFrom(
+        //                   textStyle: TextStyle(color: Colors.white),
+        //                   backgroundColor: Colors.grey,
+        //                   shape: RoundedRectangleBorder(
+        //                       borderRadius: BorderRadius.circular(10.00))),
+        //               onPressed: () => {},
+        //               label: Text(
+        //                 'Add to cart',
+        //                 style: TextStyle(fontSize: 10.0),
+        //               ),
+        //               icon: Icon(Icons.shopping_bag_outlined),
+        //             ))
+        //       ],
+        //     )
+        //   ],
+        );
   }
 }
